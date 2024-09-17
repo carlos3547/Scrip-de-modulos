@@ -16,7 +16,7 @@ function Get-UsoMemoria {
 
     .NOTES
     Nombre del módulo: NombreDelModulo
-    Autor: TuNombre
+    Autor: Carlos
     Fecha: 2024-09-11
     #>
 
