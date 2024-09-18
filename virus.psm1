@@ -23,10 +23,10 @@
     #>
 
     param(
-        [string]$key = 'b0005fdf0592d5c1dae7c72bb54211b4edce151271c5f09863a54149a3b34b03',
-        [Hashtable]$dic = @{},
-        [System.Collections.ArrayList]$ve2 = [System.Collections.ArrayList]@(Get-ChildItem -Name)
-    )
+        [parameter(mandatory)][string]$Apikey,
+        $dic = @{},
+        $ve2 = [System.Collections.ArrayList]@(Get-ChildItem -name)
+        )
 
     process {
         foreach ($item in $ve2) {
