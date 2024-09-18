@@ -65,11 +65,11 @@ function menu {
         }
         5 {
             $manifestPath1 = "C:\Users\carlo\OneDrive\Escritorio\Scrip de modulos\virustotal-manifiesto.psd1"
-            if (Test-Path $manifestPath1) {
+            try (Test-Path $manifestPath1) {
                 $manifest1 = Get-Content -Path $manifestPath1 -Raw
                 Write-Host "`nContenido del manifiesto 1:`n"
                 Write-Host $manifest1
-            } else {
+            } catch {
                 Write-Host "El archivo de manifiesto no se encuentra en la ruta especificada."
             }
         }
