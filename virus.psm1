@@ -23,7 +23,7 @@
     #>
 
     param(
-        [parameter(mandatory)][string]$Apikey,
+        [parameter(mandatory)][string]$key,
         $dic = @{},
         $ve2 = [System.Collections.ArrayList]@(Get-ChildItem -name)
         )
