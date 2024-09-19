@@ -1,4 +1,16 @@
 Set-StrictMode -Version Latest
+<#
+.SYNOPSIS
+Menu para revisión de los comandos get-help.
+#>
+<#
+.DESCRIPTION
+Con este script podrás tomar entre diversas opciones para revision de ciberseguridad.
+#>
+<#
+.NOTES
+Este menú tiene diferentes módulos para correr correctamente y solo se podrá elegir de la opción 1 a 5 para funciones.
+#>
 
 # Crear el manifiesto del módulo
 New-ModuleManifest -Path "C:\Users\carlo\OneDrive\Escritorio\Scrip de modulos\virustotal-manifiesto.psd1" -RootModule "virus.psm1"
