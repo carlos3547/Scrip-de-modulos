@@ -31,4 +31,11 @@ start_menu() {
   done
 }
 
+#Mi funcion para generar mi reporte 
+function_report() {
+  read -p "puedes poner la IP de dominio a escanear para el reporte: "ip 
+  echo "generando el reporte de escaneo para $ip..."
+  nmap -oN $reporte $reporte $ip
+  echo "reporte  generado en $reporte."
+
 
