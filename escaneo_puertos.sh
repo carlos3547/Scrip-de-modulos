@@ -43,9 +43,25 @@ scann_puertos() {
 #Mi funcion para generar mi reporte 
 function_report() {
   read -p "puedes poner la IP de dominio a escanear para el reporte: "ip 
-  echo "generando el reporte de escaneo para $ip..."
+  echo "iniciando el reporte de escaneo para $ip..."
   nmap -oN $reporte $reporte $ip
   echo "reporte  generado en $reporte."
 
 #creo mi funcion para generar el escaneo rapido 
+scann_fast() {
+  read -p "introduce la IP o dominioa escanear:" ip
+  echo "iniciando escaneo rapido en $ip...."
+  nmap -T4 $ip
+  echo "escaneo rapido finalizado."
+}
+
+#podemos crear una funcion para hacer un escaneo detallado
+scann_detallado() {
+  read -p "puedes poner la IP o dominio a escanear:" ip
+  echo "inicie el escaneo detallado en $ip..."
+  nmap -A $ip
+  echo "haciedo un escaneo detallado terminado"
+}
+
+
 
