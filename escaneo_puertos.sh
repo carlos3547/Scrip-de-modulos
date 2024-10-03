@@ -63,5 +63,27 @@ scann_detallado() {
   echo "haciedo un escaneo detallado terminado"
 }
 
+#creo mi funcion para poder escanear puertos abiertos
+scann_puertos_filled () {
+  read -p "introduce la IP o dominio a escanear" ip 
+  read -p "pon los puertos especificos separado por comas (80,443,8080)" puertos
+  echo "iniciando los escaneos de puertos especificosde $ip."
+  nmap -p $puertos $ip
+  echo "escaneo de puertos especificos finalizado"
+}
+
+# Tienes que verificar si nmap esta instalado de esta manera
+if ! command -v nmap &> /dev/null
+then
+    echo "nmap no está instalado. Instalándolo..."
+    sudo apt-get install nmap -y
+fi
+
+iniciar_menu
+
+  
+
+
+}
 
 
