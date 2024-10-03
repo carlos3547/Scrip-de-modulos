@@ -31,6 +31,15 @@ start_menu() {
   done
 }
 
+#mi funcion para realizar el scaneo de puertos
+scann_puertos() {
+  read -p "introduce la Ip del dominio a escanear:" ip
+  read -p "pon el rango de puertos (ej. 1-1000):" rango 
+  echo "inicie escaneo de puertos en $ip, rango de puertos $rango...."
+  nmap -p $rango $ip
+  echo "escaneode puertos terminado"
+}
+
 #Mi funcion para generar mi reporte 
 function_report() {
   read -p "puedes poner la IP de dominio a escanear para el reporte: "ip 
@@ -38,4 +47,5 @@ function_report() {
   nmap -oN $reporte $reporte $ip
   echo "reporte  generado en $reporte."
 
+#creo mi funcion para generar el escaneo rapido 
 
