@@ -84,16 +84,6 @@ function_report() {
 start_menu()
 
 
-
-
-# Tienes que verificar si nmap esta instalado de esta manera
-if ! command -v nmap &> /dev/null
-then
-    echo "nmap no está instalado. Instalándolo..."
-    sudo apt-get install nmap -y
-fi
-}
-
 show_menu() {
     clear
     echo "Escaneo de Puertos"
