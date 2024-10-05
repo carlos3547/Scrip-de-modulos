@@ -10,14 +10,14 @@ show_menu() {
   echo "3. escaneo detallado"
   echo "4. escanear puertos abiertos especificos"
   echo "5. Generar reporte"
-  echo "6. salir
+  echo "6. "salir"
   read -p "eligue una opcion:" opcion
 }
 # mi funcion principal para el menu
 start_menu() {
   while true; do
     mostrar_menu
-    read -p "Elige una opción: " opcion  # Captura la entrada del usuario
+    read -p "Elige una opción: " opcion  
     case $opcion in
       1) echo "Escaneo de puertos" ;;  
       2) echo "Escaneo rápido" ;;      
@@ -27,50 +27,64 @@ start_menu() {
       6) echo "Saliendo..."; exit ;;   
       *) echo "Opción no válida" ;;    
     esac
-    read -p "Presiona Enter para continuar..."  # Pausa antes de mostrar el menú de nuevo
+    read -p "Presiona Enter para continuar"  
   done
 }
 
-#mi funcion para realizar el scaneo de puertos
-scann_puertos() {
-  read -p "introduce la Ip del dominio a escanear:" ip
-  read -p "pon el rango de puertos (ej. 1-1000):" rango 
-  echo "inicie escaneo de puertos en $ip, rango de puertos $rango...."
-  nmap -p $rango $ip
-  echo "escaneode puertos terminado"
-}
+#mi funcion para realizar el scaneo de puertos locales aqui usu lsof
+scann_puertos_local() {
+	echo "Mostro puertos abiertos locales"
+ 	sudo lsof -i -P -n | grep LISTEN
+  	echo "escaneo de mis puertos locales terminado"
+   }
 
-#Mi funcion para generar mi reporte 
-function_report() {
-  read -p "puedes poner la IP de dominio a escanear para el reporte: "ip 
-  echo "iniciando el reporte de escaneo para $ip..."
-  nmap -oN $reporte $reporte $ip
-  echo "reporte  generado en $reporte."
-
-#creo mi funcion para generar el escaneo rapido 
+#Usando ping podemos hacer un escaneo rapido
 scann_fast() {
-  read -p "introduce la IP o dominioa escanear:" ip
-  echo "iniciando escaneo rapido en $ip...."
-  nmap -T4 $ip
-  echo "escaneo rapido finalizado."
+	read -p "ponga la IP o dominio a escanear: " ip
+ 	echo "iniciando el escaneo rapido (ping) en $ip"
+  	ping -c 4 $ip > /dev/null 2>&1
+   	if [ $? -eq 0]; then
+    		echo "host $ip esta activo."
+	else
+ 		echo "host $ip no esta respondiendo"
+   	fi 
+    	echo "escaneo datallado terminado "
 }
 
-#podemos crear una funcion para hacer un escaneo detallado
-scann_detallado() {
-  read -p "puedes poner la IP o dominio a escanear:" ip
-  echo "inicie el escaneo detallado en $ip..."
-  nmap -A $ip
-  echo "haciedo un escaneo detallado terminado"
+#creo mi funcion para hacer un escaneo detallado de las conexiones usando ss de BASH 
+scann_datailed() {
+	echo "muestro todas las conexiones de red activas (TCP,VPN)  "
+ 	ss -tuln 
+  	echo "escaneo detallado finalizado"
 }
 
-#creo mi funcion para poder escanear puertos abiertos
-scann_puertos_filled () {
-  read -p "introduce la IP o dominio a escanear" ip 
-  read -p "pon los puertos especificos separado por comas (80,443,8080)" puertos
-  echo "iniciando los escaneos de puertos especificosde $ip."
-  nmap -p $puertos $ip
-  echo "escaneo de puertos especificos finalizado"
+#podemos crear una funcion para escanear puertos especificos especificos usando lsof de BASH
+scann_puertos_abiertos() {
+	read -p "escribe los puertos especificos separando por comas (ej. 80, 443,22) " puertos
+ 	echo "inicio escaneo de puertos especificos"
+  	for puerto in (echo $puertos | tr "," "\n"); do 
+   		sudo lsof -i :$puerto -P -n | grep LISTEN 
+     	done
+      	echo "el escaneo de puertos especificos pues esta terminado "
 }
+
+#creo mi funcion para hacer el reporte de la red es decir (escaneo basico de hosts activos)
+function_report() {
+	read -p "ponga el rando de IPs (ejemplo. 192.169.2.)" red
+ 	echo "haciendo el escaneo de escaneo de red para la red $red.." >$report
+  	for ip in {1...254}; do 
+   		ping -c 1 -W 1 ${red}$ip > /dev/null 2>&1
+     		if [ $? -eq 0]; then
+       			echo "host activo: ${red}$ip" >> $report
+	  	fi 
+    	done
+    	echo "reporte generado por en el $report"
+}
+
+start_menu()
+
+
+
 
 # Tienes que verificar si nmap esta instalado de esta manera
 if ! command -v nmap &> /dev/null
@@ -78,12 +92,6 @@ then
     echo "nmap no está instalado. Instalándolo..."
     sudo apt-get install nmap -y
 fi
-
-iniciar_menu
-
-  
-
-
 }
 
 show_menu() {
