@@ -40,16 +40,21 @@ scann_puertos_local() {
 
 #Usando ping podemos hacer un escaneo rapido
 scann_fast() {
-    # Obtenemos la IP de local
+    # Obtenemos la IP local
     local_ip=$(hostname -I | awk '{print $1}')
     
-    # Solicitar la IP o dominio, usando la IP local como predeterminada si no se ingresa nada
+    # Pedir al usuario la IP o dominio
     read -p "Ponga la IP o dominio a escanear (presione Enter para usar la IP de esta computadora: $local_ip): " ip
-    ip=${ip:-$local_ip}  # Si no se ingresa nada, usar la IP local
+    
+    # Si el usuario no ingresa nada, usar la IP local
+    ip=${ip:-$local_ip}
 
     echo "Iniciando el escaneo rápido (ping) en $ip"
+    
+    # Ejecutar el ping
     ping -c 4 $ip > /dev/null 2>&1
 
+    # Verificar si el host responde
     if [ $? -eq 0 ]; then
         echo "El host $ip está activo."
     else
@@ -68,11 +73,18 @@ scann_datailed() {
 }
 
 #podemos crear una funcion para escanear puertos especificos especificos usando lsof de BASH
-scann_puertos_abiertos() {
+scann_puertos_abiertos () {
     # Puertos predeterminados
     puertos_predeterminados=("80" "443" "22")
 
+    # Pedir puertos específicos al usuario
     read -p "Escribe los puertos específicos separados por comas (dejar vacío para usar predeterminados 80, 443, 22): " puertos_usuario
+
+    # Validar que el usuario introduzca solo números y comas
+    while ! [[ "$puertos_usuario" =~ ^[0-9,]*$ ]]; do
+        echo "Entrada no válida. Por favor, ingresa solo números separados por comas."
+        read -p "Escribe los puertos específicos separados por comas (dejar vacío para usar predeterminados 80, 443, 22): " puertos_usuario
+    done
 
     # Si el usuario no proporciona puertos, usar los predeterminados
     if [ -z "$puertos_usuario" ]; then
@@ -82,13 +94,15 @@ scann_puertos_abiertos() {
         IFS=',' read -r -a puertos <<< "$puertos_usuario"
     fi
 
-    echo "Inicio escaneo de puertos específicos"
+    echo "Iniciando el escaneo de puertos específicos..."
 
+    # Escanear cada puerto proporcionado
     for puerto in "${puertos[@]}"; do
-        sudo lsof -i :$puerto -P -n | grep LISTEN
+        echo "Escaneando puerto $puerto..."
+        sudo lsof -i :$puerto -P -n | grep LISTEN || echo "No se encontraron servicios en el puerto $puerto."
     done
 
-    echo "El escaneo de puertos específicos ha terminado"
+    echo "El escaneo de puertos específicos ha terminado."
 }
 
 
