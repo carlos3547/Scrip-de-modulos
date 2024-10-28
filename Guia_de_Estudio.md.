@@ -1,0 +1,39 @@
+Guia de estudio 
+Requisitos
+Antes de ejecutar los scripts, asegúrate de tener instalado lo siguiente:
+
+Python: Asegúrate de tener la versión 3.x instalada.
+Git: Necesitarás Git para clonar el repositorio.
+Bash: (Opcional) Si planeas ejecutar scripts de Bash, asegúrate de tener un entorno compatible (como Git Bash o WSL en Windows).
+
+Estructura de mis archivos 
+tu_repositorio/
+│
+├── API_IPABUSE.py
+├── Complejo.py
+├── deteccion.py
+├── escaneo_puertos.sh
+├── ListadoDeArchivosOcultos.psm1
+├── modulo2.psm1
+├── Modulo_UsoRecursos.psm1
+├── Monitoreo_Red.sh
+├── trafico.py
+└── virus.psm1
+
+
+
+para ejecutar el scrip principal utilize python menu_principal.py -o <número_de_opción>
+por ejemplo para ejecutar cual quier modulo python menu_principal.py -o 1
+
+
+Problemas: El script no se ejecuta
+Verifica el path: Asegúrate de que el archivo del script existe en la ruta especificada.
+
+Permisos: Si estás en un sistema Unix/Linux, asegúrate de que el script tenga permisos de ejecución:
+
+ejemplo 
+chmod +x escaneo_puertos.sh
+
+importante tener python instalado 
+Para más información sobre Python, visita [python.org](https://www.python.org).
+
