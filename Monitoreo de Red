@@ -1,0 +1,56 @@
+#monitoreo de red
+ 
+# Función para mostrar el menú principal
+function show_menu() {
+  clear
+  echo "Menú de Monitoreo de Red"
+  echo "1. Escanear puertos de un host"
+  echo "2. Verificar conectividad a hosts"
+  echo "3. Detectar dispositivos nuevos en la red"
+  echo "4. Salir"
+  read -p "Selecciona una opción: " opcion
+}
+ 
+# Función para escanear puertos de un host
+function port_scan() {
+  read -p "Ingrese la dirección IP del host: " ip
+  nmap -sT $ip
+}
+ 
+# Función para verificar conectividad a hosts
+function verify_connectivity() {
+  read -p "Ingrese una lista de hosts separados por comas: " hosts
+  for host in $hosts; do
+    ping -c 4 $host
+    echo ""
+  done
+}
+ 
+# Función para detectar dispositivos nuevos en la red
+function new_devices() {
+  # Implementación personalizada utilizando herramientas como arp-scan, nmap, etc.
+  echo "Función en desarrollo: Detectar dispositivos nuevos en la red"
+}
+ 
+# Ciclo principal del script
+while true; do
+  mostrar_menu
+  case $opcion in
+    1)
+      port_scan
+      ;;
+    2)
+      verify_connectivity
+      ;;
+    3)
+      new_devices
+      ;;
+    4)
+      echo "Saliendo..."
+      exit 0
+      ;;
+    *)
+      echo "Opción inválida"
+      ;;
+  esac
+done
